@@ -200,6 +200,12 @@ export default function Advisor() {
                   }
                   return null;
                 })}
+                {m.role === "assistant" &&
+                  !busy &&
+                  !(m.parts ?? []).some((p) => p.type === "text" && p.text.trim()) &&
+                  (m.parts ?? []).some(
+                    (p) => p.type === "tool-invocation" && p.toolInvocation.toolName === "evaluateBuild",
+                  ) && <p className="text-slate-600">Your checked build is shown in the build panel.</p>}
               </div>
             </div>
           ))}

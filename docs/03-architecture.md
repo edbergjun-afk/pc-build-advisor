@@ -10,7 +10,7 @@ POST /api/chat   (Next.js route handler, Node runtime on Vercel)
   │  1. check OPENAI_API_KEY is set (env var, never in code)
   │  2. per-IP rate limit (in memory)
   │  3. body size + zod validation (roles, lengths, count)
-  │  4. streamText(model, system prompt, tools, maxSteps 8)
+  │  4. streamText(model, system prompt, tools, maxSteps 14)
   │        ├─ tool searchParts  → lib/catalog.ts (sample catalogue)
   │        └─ tool evaluateBuild → lib/compatibility.ts (rule engine)
   │  5. structured logs (lib/log.ts) → Vercel Logs

@@ -11,7 +11,7 @@ import { CATEGORIES, FORM_FACTORS, MEMORY_TYPES, SOCKETS, USE_CASES } from "@/li
 import { MAX_BODY_BYTES, MAX_BUDGET, parseChatRequest } from "@/lib/validation";
 
 export const runtime = "nodejs";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 const limiter = createRateLimiter({ limit: 20, windowMs: 60_000 });
 
@@ -74,7 +74,8 @@ export async function POST(req: Request) {
     system: SYSTEM_PROMPT,
     messages: convertToCoreMessages(parsed.data.messages as unknown as Message[]),
     temperature: 0.3,
-    maxSteps: 8,
+    // Room for: searches (ideally parallel), up to 3 evaluate/fix rounds, and the final text reply.
+    maxSteps: 14,
     tools: {
       searchParts: tool({
         description:

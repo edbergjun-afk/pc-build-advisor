@@ -42,6 +42,6 @@ Public GitHub repo, GitHub Actions CI, live Vercel URL, no hard-coded secrets, s
 | Risk | Mitigation |
 |---|---|
 | Model invents parts or prices | Catalogue-only tools; unknown IDs fail the check; the panel shows the checked data, not model text. |
-| Model returns incompatible build | `evaluateBuild` errors force a retry (up to 3 tries in the prompt; `maxSteps` 8). |
+| Model returns incompatible build | `evaluateBuild` errors force a retry (up to 3 tries in the prompt; `maxSteps` 14). |
 | Prompt injection or off-topic use | System prompt scope; client `system` messages rejected; message length caps. |
 | API cost or abuse | Rate limit (20 requests per minute per IP per instance); small model; `maxSteps` cap. |
