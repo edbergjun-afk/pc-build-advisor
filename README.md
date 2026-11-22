@@ -3,7 +3,7 @@
 An AI-powered PC build advisor for an online computer store. Tell it your budget (PHP) and what you will use the PC for. It picks parts **only from the store's catalogue**, then a **deterministic rule engine** checks socket, memory, size, cooling, power and budget before the build is shown.
 
 - **Live app:** https://pc-build-advisor-eta.vercel.app/ (health check: [/api/health](https://pc-build-advisor-eta.vercel.app/api/health))
-- **Demo video (2 min):** TODO: add link
+- **Demo video (2 min):** it is in the docs folder
 - **Reflection:** [docs/reflection.md](docs/reflection.md)
 - **v2 issue:** [#1 Live catalogue in Supabase with stock-aware recommendations](https://github.com/edbergjun-afk/pc-build-advisor/issues/1)
 
