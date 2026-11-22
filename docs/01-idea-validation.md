@@ -1,6 +1,5 @@
 # Idea validation: PC Build Advisor
 
-> **Before you submit:** match the seven step names below to the ones in your Week 4 slides, and replace every **TODO** with your own evidence. Do not submit made-up quotes or numbers.
 
 ## Step 1: Problem statement
 
