@@ -27,7 +27,8 @@ export async function POST(req: Request) {
   const requestId = crypto.randomUUID();
 
   // Secrets come from environment variables only (set in .env.local or the Vercel dashboard).
-  const apiKey = process.env.OPENAI_API_KEY;
+  // Trim: stray spaces or line breaks from copy-paste cause 401s.
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
   if (!apiKey) {
     log("error", "chat_misconfigured", { requestId, reason: "OPENAI_API_KEY not set" });
     return jsonError("The AI service is not configured yet. Please try again later.", 503);
@@ -62,9 +63,9 @@ export async function POST(req: Request) {
 
   const openai = createOpenAI({
     apiKey,
-    baseURL: process.env.OPENAI_BASE_URL || undefined,
+    baseURL: process.env.OPENAI_BASE_URL?.trim().replace(/\/+$/, "") || undefined,
   });
-  const modelId = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  const modelId = process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini";
 
   let toolCalls = 0;
 

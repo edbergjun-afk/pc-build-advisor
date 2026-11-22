@@ -35,7 +35,7 @@ Request: `{ messages: Array<{ role: "user" | "assistant", content: string, ...ui
 Response: AI SDK data stream (text and tool-invocation parts). Stream errors show a generic message plus a short code (`AI-<HTTP status>`, `AI-NET` or `AI-ERR`; see the README troubleshooting table). Provider error text is logged server-side only.
 
 ### GET /api/health
-`{ status: "ok", aiConfigured: boolean, catalogueSize: number, commit: string, time: string }`. Never returns secret values.
+`{ status: "ok", aiConfigured: boolean, customEndpoint: boolean, catalogueSize: number, commit: string, time: string }`. Never returns secret values.
 
 ## 5. Tools
 
