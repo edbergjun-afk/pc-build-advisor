@@ -1,6 +1,6 @@
 # spec.md: PC Build Advisor
 
-Version 0.2 · 22 November 2026 · See the revision history at the end.
+Version 0.3 · 22 November 2026 · See the revision history at the end.
 
 ## 1. Purpose
 A web app for an online computer store. A shopper gives a budget (PHP) and use case. An AI advisor builds a complete PC from the store catalogue, and deterministic code checks every build for compatibility, power and budget before it is shown.
@@ -32,7 +32,7 @@ Request: `{ messages: Array<{ role: "user" | "assistant", content: string, ...ui
 | Length | user ≤ 1,000 chars; assistant ≤ 8,000 chars | 400 |
 | Last message | role `user`, not blank | 400 |
 
-Response: AI SDK data stream (text and tool-invocation parts). Stream errors show a generic message.
+Response: AI SDK data stream (text and tool-invocation parts). Stream errors show a generic message plus a short code (`AI-<HTTP status>`, `AI-NET` or `AI-ERR`; see the README troubleshooting table). Provider error text is logged server-side only.
 
 ### GET /api/health
 `{ status: "ok", aiConfigured: boolean, catalogueSize: number, commit: string, time: string }`. Never returns secret values.
@@ -84,3 +84,4 @@ Vitest unit tests for the rule engine, validation, catalogue search, currency fo
 |---|---|---|---|
 | 0.1 | 22 November 2026 | First draft: AI chat that recommends parts from a catalogue placed in the system prompt; model checks compatibility itself. | Initial design. |
 | 0.2 | 22 November 2026 | (a) Catalogue moved behind a `searchParts` tool. (b) Compatibility moved to a deterministic `evaluateBuild` rule engine with unit tests. (c) Added server-side zod validation, rejection of client `system` messages, rate limit, generic error messages. (d) Added the build summary panel driven by tool results. (e) Budget tracked separately from compatibility. | Review found: the model can hallucinate parts and prices and cannot guarantee constraints; the prompt-embedded catalogue does not scale; the original spec had no abuse limits; and "over budget" mixed with "incompatible" confused users. **TODO:** add your reviewer's name and comments (peer, instructor or AI review). |
+| 0.3 | 22 November 2026 | Chat errors show a short non-sensitive code (`AI-401`, `AI-NET`…); `chat_failed` logs include the code. | Live testing: the first deploy failed with only a generic message, and the cause could not be diagnosed without dashboard access. |

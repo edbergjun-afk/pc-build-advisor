@@ -1,6 +1,7 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { convertToCoreMessages, streamText, tool, type Message } from "ai";
 import { z } from "zod";
+import { aiErrorCode, userErrorMessage } from "@/lib/aiErrors";
 import { searchParts } from "@/lib/catalog";
 import { evaluateBuild } from "@/lib/compatibility";
 import { log } from "@/lib/log";
@@ -126,6 +127,7 @@ export async function POST(req: Request) {
     onError: ({ error }) => {
       log("error", "chat_failed", {
         requestId,
+        code: aiErrorCode(error),
         latencyMs: Date.now() - started,
         error: error instanceof Error ? error.message : String(error),
       });
@@ -133,7 +135,7 @@ export async function POST(req: Request) {
   });
 
   return result.toDataStreamResponse({
-    // Never send provider error details (which may include config hints) to the browser.
-    getErrorMessage: () => "Sorry, the AI service had a problem. Please try again.",
+    // Never send provider error details to the browser: only a short code (see README troubleshooting).
+    getErrorMessage: (error) => userErrorMessage(aiErrorCode(error)),
   });
 }

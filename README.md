@@ -63,6 +63,19 @@ npm run lint
 5. Under **Analytics**, enable Web Analytics.
 6. Check `https://<your-app>/api/health`. It should show `"aiConfigured": true`.
 
+## Troubleshooting
+If the chat shows "Sorry, the AI service had a problem (code …)", the code says what the provider returned. The full error is in Vercel Logs under `chat_failed`.
+
+| Code | Likely cause | Fix |
+|---|---|---|
+| `AI-401` / `AI-403` | Key rejected | Check `OPENAI_API_KEY`, and that it matches the endpoint in `OPENAI_BASE_URL` |
+| `AI-404` | Wrong endpoint or model | Check that `OPENAI_BASE_URL` ends in `/v1` and that `OPENAI_MODEL` exists for your key |
+| `AI-400` | Request option not supported by the provider or proxy | Try another model that supports tool calling |
+| `AI-429` | Rate limit or quota used up | Wait, or check your course or provider quota |
+| `AI-NET` | Endpoint unreachable | Check the `OPENAI_BASE_URL` spelling |
+
+After changing environment variables in Vercel, **redeploy** (Deployments → ⋯ → Redeploy) for them to take effect.
+
 ## Monitoring
 - **Vercel Web Analytics:** page views and visitors.
 - **Vercel Logs:** filter by `event`: `chat_completed` (latency, steps, tokens), `build_evaluated` (compatible, within budget), `chat_failed`, `chat_rate_limited`.
