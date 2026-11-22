@@ -5,7 +5,7 @@ An AI-powered PC build advisor for an online computer store. Tell it your budget
 - **Live app:** TODO: add your Vercel URL
 - **Demo video (2 min):** TODO: add link
 - **Reflection:** [docs/reflection.md](docs/reflection.md)
-- **v2 issue:** TODO: add GitHub issue link
+- **v2 issue:** [#1 Live catalogue in Supabase with stock-aware recommendations](https://github.com/edbergjun-afk/pc-build-advisor/issues/1)
 
 > Course project (Week 4 Graded Assignment 4.2). The catalogue and prices are sample data, not a real store.
 
