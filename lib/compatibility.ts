@@ -19,6 +19,9 @@ import type {
 export const BASE_SYSTEM_W = 75;
 /** Recommended PSU capacity as a multiple of estimated peak load. */
 export const PSU_HEADROOM = 1.4;
+/** Share of budget left unspent that triggers an upgrade hint for performance use cases. */
+export const UNDERUSED_BUDGET_SHARE = 0.15;
+const PERFORMANCE_USE_CASES: UseCase[] = ["gaming", "video-editing", "streaming"];
 
 const SINGLE_CATEGORIES: Category[] = ["cpu", "motherboard", "ram", "gpu", "psu", "case", "cooler"];
 const REQUIRED_CATEGORIES: Category[] = ["cpu", "motherboard", "ram", "storage", "psu", "case"];
@@ -132,6 +135,14 @@ export function evaluateBuild(input: EvaluateInput): BuildEvaluation {
 
   const total = parts.reduce((sum, p) => sum + p.price, 0);
   const remaining = input.budget - total;
+
+  if (PERFORMANCE_USE_CASES.includes(input.useCase) && remaining > input.budget * UNDERUSED_BUDGET_SHARE) {
+    issues.push({
+      severity: "warning",
+      code: "underused_budget",
+      message: `PHP ${remaining.toLocaleString("en-PH")} of the budget is unused; upgrading the most important part for ${input.useCase.replace("-", " ")} would give better performance.`,
+    });
+  }
 
   return {
     useCase: input.useCase,

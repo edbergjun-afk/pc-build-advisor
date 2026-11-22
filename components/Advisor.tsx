@@ -33,6 +33,17 @@ function friendlyError(error: Error | undefined): string | null {
   return error.message || "Something went wrong. Please try again.";
 }
 
+/** Renders **bold** safely (React escapes the text); the model sometimes uses it despite the prompt. */
+function renderText(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((chunk, i) =>
+    chunk.startsWith("**") && chunk.endsWith("**") && chunk.length > 4 ? (
+      <strong key={i}>{chunk.slice(2, -2)}</strong>
+    ) : (
+      chunk
+    ),
+  );
+}
+
 function toolLabel(toolName: string, args: Record<string, unknown>, done: boolean): string {
   if (toolName === "searchParts") {
     const cap = typeof args.maxPrice === "number" ? ` under ${formatPHP(args.maxPrice)}` : "";
@@ -170,7 +181,7 @@ export default function Advisor() {
                   if (part.type === "text") {
                     return (
                       <p key={idx} className="whitespace-pre-wrap leading-relaxed">
-                        {part.text}
+                        {renderText(part.text)}
                       </p>
                     );
                   }

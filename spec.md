@@ -1,6 +1,6 @@
 # spec.md: PC Build Advisor
 
-Version 0.3 · 22 November 2026 · See the revision history at the end.
+Version 0.4 · 22 November 2026 · See the revision history at the end.
 
 ## 1. Purpose
 A web app for an online computer store. A shopper gives a budget (PHP) and use case. An AI advisor builds a complete PC from the store catalogue, and deterministic code checks every build for compatibility, power and budget before it is shown.
@@ -66,6 +66,7 @@ Output: `BuildEvaluation` with `parts`, `total`, `remaining`, `withinBudget`, `e
 | psu_too_small | error | PSU watts ≥ estimated load (CPU + GPU + 75 W) |
 | psu_headroom | warning | PSU watts ≥ load × 1.4, rounded up to the next 50 W |
 | gaming_no_gpu, low_ram, few_cores, no_ssd | warning | Use-case advice |
+| underused_budget | warning | Gaming, video editing or streaming build leaves more than 15% of the budget unspent |
 
 `compatible` means there are no errors. `withinBudget` means total ≤ budget (tracked separately).
 
@@ -84,4 +85,5 @@ Vitest unit tests for the rule engine, validation, catalogue search, currency fo
 |---|---|---|---|
 | 0.1 | 22 November 2026 | First draft: AI chat that recommends parts from a catalogue placed in the system prompt; model checks compatibility itself. | Initial design. |
 | 0.2 | 22 November 2026 | (a) Catalogue moved behind a `searchParts` tool. (b) Compatibility moved to a deterministic `evaluateBuild` rule engine with unit tests. (c) Added server-side zod validation, rejection of client `system` messages, rate limit, generic error messages. (d) Added the build summary panel driven by tool results. (e) Budget tracked separately from compatibility. | Review found: the model can hallucinate parts and prices and cannot guarantee constraints; the prompt-embedded catalogue does not scale; the original spec had no abuse limits; and "over budget" mixed with "incompatible" confused users. **TODO:** add your reviewer's name and comments (peer, instructor or AI review). |
+| 0.4 | 22 November 2026 | Added the `underused_budget` warning. The prompt now tells the model to fix affordable warnings and use 85% to 100% of the budget for performance use cases. Chat renders `**bold**`. | Live test: a PHP 40,000 gaming build left PHP 10,500 unused with an RTX 3050 when an RTX 4060 fit. A follow-up asking for a better GPU still left PHP 7,500 and an unfixed PSU warning. The model also used markdown bold despite the prompt. |
 | 0.3 | 22 November 2026 | Chat errors show a short non-sensitive code (`AI-401`, `AI-NET`…); `chat_failed` logs include the code. | Live testing: the first deploy failed with only a generic message, and the cause could not be diagnosed without dashboard access. |

@@ -68,6 +68,12 @@ describe("evaluateBuild", () => {
     expect(r.compatible).toBe(true);
   });
 
+  it("hints to upgrade when a performance build leaves over 15% of the budget unused", () => {
+    expect(codes(GOOD, 60_000, "gaming")).toContain("underused_budget");
+    expect(codes(GOOD, 60_000, "office-school")).not.toContain("underused_budget");
+    expect(codes(GOOD, 40_000, "gaming")).not.toContain("underused_budget");
+  });
+
   it("rejects unknown part IDs (protects against hallucinated parts)", () => {
     expect(codes([...GOOD, "gpu-rtx9090-made-up"])).toContain("unknown_part");
   });
