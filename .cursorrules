@@ -1,0 +1,22 @@
+# Cursor rules for PC Build Advisor
+
+You are working on a Next.js 14 App Router + TypeScript + Tailwind project that uses the Vercel AI SDK v4 (`ai`, `@ai-sdk/openai`, `@ai-sdk/react`) and zod. Read spec.md before making changes.
+
+## Must
+- Treat spec.md as the source of truth; update it (and its revision history) when behaviour changes.
+- Keep secrets in environment variables read on the server (`process.env.OPENAI_API_KEY`). Never hard-code, log or expose keys; never use NEXT_PUBLIC_ for secrets.
+- Put business rules (compatibility, power, budget) in lib/compatibility.ts with unit tests in tests/. Do not move rules into prompts.
+- Only recommend parts from lib/catalog.ts; tools return catalogue IDs and prices.
+- Validate all API input with zod (lib/validation.ts); return JSON `{ error }` with proper status codes; show generic errors to users.
+- Format money with formatPHP ("PHP 45,000.00"); never use a currency symbol. Write units with a space ("650 W", "240 mm").
+- Use strict TypeScript; no `any`; small typed React components; Tailwind for styling.
+- Run `npm test`, `npm run typecheck`, `npm run lint` before suggesting a commit.
+
+## Must not
+- Add payment processing, user accounts or real customer data.
+- Call the LLM from the browser.
+- Disable the CI secret scan, tests or lint to get a build passing.
+
+## Style
+- Conventional commits: feat:, fix:, test:, docs:, ci:, chore:.
+- Prefer clear names over comments; comment only the "why".
