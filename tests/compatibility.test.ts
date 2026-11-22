@@ -55,9 +55,10 @@ describe("evaluateBuild", () => {
     expect(codes(longGpu, 100_000)).toContain("gpu_length");
 
     const itx = ["cpu-r7-7800x3d", "mb-b650i-ddr5", "ram-ddr5-32", "ssd-nvme-1tb", "psu-650-gold", "case-itx-sff"];
-    expect(codes([...itx, "cool-tower-basic"], 100_000)).toContain("cooler_height");
-    expect(codes([...itx, "cool-aio-240"], 100_000)).toContain("radiator_fit");
-    expect(codes([...itx, "cool-lowprofile"], 100_000)).toEqual([]);
+    // "general" use case: this iGPU-only build is fine without a graphics card.
+    expect(codes([...itx, "cool-tower-basic"], 100_000, "general")).toContain("cooler_height");
+    expect(codes([...itx, "cool-aio-240"], 100_000, "general")).toContain("radiator_fit");
+    expect(codes([...itx, "cool-lowprofile"], 100_000, "general")).toEqual([]);
   });
 
   it("reports over-budget builds without marking them incompatible", () => {
